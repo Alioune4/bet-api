@@ -1,0 +1,2 @@
+- put postgres credentials in venv
+- make the update of db and redis transactional

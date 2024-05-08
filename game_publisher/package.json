@@ -11,6 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
-    "redis": "^4.6.13"
+    "pg": "^8.11.5",
+    "pg-hstore": "^2.3.4",
+    "redis": "^4.6.13",
+    "sequelize": "^6.37.3"
   }
 }
