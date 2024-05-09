@@ -55,17 +55,17 @@ const Game = sequelize.define(
             type: DataTypes.DATE,
             allowNull: false,
         },
-        homesScore: {
+        homeScore: {
             type: DataTypes.INTEGER,
             defaultValue: 0
         },
-        awaysScore: {
+        awayScore: {
             type: DataTypes.INTEGER,
             defaultValue: 0
         },
         status: {
             type: DataTypes.ENUM("PRE-MATCH", "DRAFT", "LIVE", "ENDED"),
-            allowNull: false,
+            defaultValue: "PRE-MATCH"
         },
     },
     {
