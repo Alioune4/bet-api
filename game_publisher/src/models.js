@@ -73,7 +73,7 @@ const Game = sequelize.define(
     },
 );
 
-( async () => {await sequelize.sync({ force: true })})();
+( async () => {await sequelize.sync()})();
 console.log('All models were synchronized successfully.');
 
 module.exports = {
