@@ -73,10 +73,40 @@ const Game = sequelize.define(
     },
 );
 
+const GameEvent = sequelize.define(
+    'GameEvent',
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        date: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
+        eventType: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        text: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
+    },
+    {
+        // Other model options go here
+    },
+);
+
+Game.hasMany(GameEvent);
+GameEvent.belongsTo(Game);
+
 ( async () => {await sequelize.sync()})();
 console.log('All models were synchronized successfully.');
 
 module.exports = {
     Game,
-    User
+    User,
+    GameEvent
 }

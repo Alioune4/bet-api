@@ -6,7 +6,7 @@ const app = express();
 const port = 3001;
 app.use(express.json)
 
-app.get('/open-games', async (req, res) => {
+app.get('/replay/', async (req, res) => {
     try {
         const games = await Game.findAll({
             where: {
