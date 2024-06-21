@@ -1,5 +1,5 @@
 const express = require('express');
-const {Game, GameEvent} = require('../../game_publisher/src/models')
+const {Game} = require('../../shared/models/game')
 
 
 const app = express();
