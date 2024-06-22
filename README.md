@@ -3,6 +3,18 @@
 ## Description
 This project is a simple implementation of a betting system for mobile legends games. It is composed of 5 services.
 
+## How to run the project
+To run the project, you need to have docker and docker-compose installed on your machine.
+After that, you can run the following command at the root of the project:
+```bash
+docker-compose up
+```
+
+To see the logs of the notification worker, you can run the following command:
+```bash
+docker logs -f projet-javascript-notification-worker-1
+```
+
 ## Mobile legends game description
 Mobile legends is a 5v5 moba game where two teams of 5 players fight against each other to destroy the enemy base.
 The game is won by the team that destroys the enemy base first.
