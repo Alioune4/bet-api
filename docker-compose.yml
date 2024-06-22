@@ -36,3 +36,13 @@ services:
     depends_on:
       - postgres
 
+  replay-api:
+    build: ./microservices/replay_api
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./microservices/shared/database:/usr/src/app/src/database
+      - ./microservices/shared/models:/usr/src/app/src/models
+    depends_on:
+      - postgres
+

@@ -2,7 +2,7 @@ const express = require('express');
 
 const replayRoutes = require('./router/replayRoutes');
 const app = express();
-const port = 3002;
+const port = 3000;
 
 app.use(express.json());
 app.use('/replay-api', replayRoutes);
