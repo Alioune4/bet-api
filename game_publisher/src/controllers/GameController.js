@@ -1,11 +1,11 @@
 const Game = require('../../../shared/models/game')
-const { Op } = require('sequelize');
+const GameEvent = require('../../../shared/models/game-event')
 const redisPubClient = require('../service/redisService');
+const {computeDescription} = require('../service/gameService');
 
 
 const states = ["PRE-MATCH", "DRAFT", "LIVE", "ENDED"]//TODO
 
-//TODO import redis client
 const createGame = async (req, res) => {
     try {
         const { title, competitor1, competitor2, startDate, endDate } = req.body;
@@ -38,8 +38,19 @@ const updateGameStatus =async(req,res)=>{
 
         game.status = states[stateIndex + 1];
 
+
+        // Create a new GameEvent
+        const eventType = 'status_change';
+        const eventDescription = computeDescription(game.status);
+        await GameEvent.create({
+            gameId: game.id,
+            date: new Date(),
+            eventType: eventType,
+            description: eventDescription
+        });
+
         await game.save();
-        await redisPubClient.publish(`games:${game.id}`, JSON.stringify({ timestamp: new Date(), type: 'status_change', status: game.status }));
+        await redisPubClient.publish(`games:${game.id}`, JSON.stringify({ date: new Date(), eventType: eventType, description: eventDescription }));
         res.status(200).json({message: "Game Updated Successfully!", game: game})
 
     } catch (error) {

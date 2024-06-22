@@ -1,5 +1,6 @@
 const {Model, DataTypes} = require("sequelize")
-const {sequelize} = require('../database/sequelize')
+const sequelize = require('../database/sequelize')
+const Game = require('./Game');
 
 class GameEvent extends Model {}
 GameEvent.init(
@@ -12,7 +13,7 @@ GameEvent.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        text: {
+        description: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -23,7 +24,17 @@ GameEvent.init(
     }
 );
 
-sequelize.sync({force: false}).then(() => {
+// Define the association
+Game.hasMany(GameEvent, {
+    foreignKey: 'gameId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+});
+GameEvent.belongsTo(Game, {
+    foreignKey: 'gameId',
+});
+
+sequelize.sync({force: true}).then(() => {
     console.log("GameEvent table created")
 }).catch(() => {
     console.log("Error synchronising GameEvent table")
