@@ -1,5 +1,5 @@
-function computeDescription(game) {
-    return `Game status changed to ${game.status}`; //TODO: Add more details
+function computeDescription(gameStatus) {
+    return `Game status changed to ${gameStatus}`; //TODO: Add more details
 }
 
 module.exports = {computeDescription};
