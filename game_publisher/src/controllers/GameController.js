@@ -1,5 +1,6 @@
 const Game = require('../../../shared/models/game')
 const { Op } = require('sequelize');
+const redisPubClient = require('../service/redisService');
 
 
 const states = ["PRE-MATCH", "DRAFT", "LIVE", "ENDED"]//TODO
@@ -11,8 +12,6 @@ const createGame = async (req, res) => {
         const game = { title, competitor1, competitor2, startDate, endDate }
 
         const createdGame = await Game.create(game);
-
-        //await redisClient.set(createdGame.id.toString(),  JSON.stringify(createdGame)); //TODO Faut l'activer ALioune ?????
 
         res.status(200).json({message: "Game Published Successfully!", game: createdGame})
     } catch (error) {
@@ -40,7 +39,7 @@ const updateGameStatus =async(req,res)=>{
         game.status = states[stateIndex + 1];
 
         await game.save();
-        await redisClient.publish(`games:${game.id}`, JSON.stringify({ timestamp: new Date(), type: 'status_change', status: game.status })); //TODO importer client
+        await redisPubClient.publish(`games:${game.id}`, JSON.stringify({ timestamp: new Date(), type: 'status_change', status: game.status }));
         res.status(200).json({message: "Game Updated Successfully!", game: game})
 
     } catch (error) {
@@ -52,6 +51,7 @@ const updateGameStatus =async(req,res)=>{
 const updateGameScore = async(req,res)=>{
     try {
         const gameId = req.params.id;
+        //const killer = req.query.killer;
         const game = await Game.findByPk(gameId);
 
         if (!game){
@@ -73,7 +73,7 @@ const updateGameScore = async(req,res)=>{
         }
 
         await game.save();
-        await redisClient.publish(`games:${game.id}`, JSON.stringify({ timestamp: new Date(), type: 'kill', killer: killerTeam }));
+        await redisPubClient.publish(`games:${game.id}`, JSON.stringify({ timestamp: new Date(), type: 'kill', killer: killerTeam }));
 
         res.status(200).json({message: "Game Updated Successfully!", game: game})
     } catch (error) {
