@@ -1,4 +1,4 @@
-const Game = require('../../../shared/models/game')
+const Game = require('../models/game')
 const { Op } = require('sequelize');
 
 
