@@ -1,8 +1,10 @@
 const redis = require('redis');
 
+const redisHost =  'redis';
+const redisPort =  6379;
+
 const redisSubClient = redis.createClient({
-    host: 'localhost',
-    port: 6379,
+    url: `redis://${redisHost}:${redisPort}`,
     debug_mode: true
 });
 

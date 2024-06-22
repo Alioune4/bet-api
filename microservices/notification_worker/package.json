@@ -1,0 +1,17 @@
+{
+  "name": "notification-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sequelize": "^6.37.3",
+    "pg": "^8.11.5",
+    "retry": "^0.13.1",
+    "redis": "^4.6.13"
+  }
+}

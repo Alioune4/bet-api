@@ -46,3 +46,11 @@ services:
     depends_on:
       - postgres
 
+  notification-worker:
+    build: ./microservices/notification_worker
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./microservices/shared/database:/usr/src/app/src/database
+      - ./microservices/shared/models:/usr/src/app/src/models
