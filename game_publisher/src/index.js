@@ -1,6 +1,4 @@
 const express = require('express');
-const redis = require('redis');
-const {Game} = require('./../../shared/models/game')
 
 const gameRoutes = require('./router/matchRoutes');
 const app = express();
