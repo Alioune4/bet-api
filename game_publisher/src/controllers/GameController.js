@@ -50,7 +50,7 @@ const updateGameStatus =async(req,res)=>{
         });
 
         await game.save();
-        await redisPubClient.publish(`games:${game.id}`, JSON.stringify({ date: new Date(), eventType: eventType, description: eventDescription }));
+        await redisPubClient.publish("game_events", JSON.stringify({gameId: `:${game.id}`, date: new Date(), eventType: eventType, description: eventDescription }));
         res.status(200).json({message: "Game Updated Successfully!", game: game})
 
     } catch (error) {
@@ -84,7 +84,7 @@ const updateGameScore = async(req,res)=>{
         }
 
         await game.save();
-        await redisPubClient.publish(`games:${game.id}`, JSON.stringify({ timestamp: new Date(), type: 'kill', killer: killerTeam }));
+        await redisPubClient.publish("game_events", JSON.stringify({games:`${game.id}`, timestamp: new Date(), type: 'kill', killer: killerTeam }));
 
         res.status(200).json({message: "Game Updated Successfully!", game: game})
     } catch (error) {

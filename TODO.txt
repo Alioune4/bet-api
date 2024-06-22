@@ -1,2 +1,4 @@
-- put postgres credentials in venv
-- make the update of db and redis transactional
+- put postgres credentials in env
+- put all services in a docker container
+- add authentication
+- handle more events (round win, objective capture, etc)
