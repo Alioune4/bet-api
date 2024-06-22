@@ -1,5 +1,5 @@
-const Game = require('../../../shared/models/game')
-const GameEvent = require('../../../shared/models/game-event')
+const Game = require('../models/game')
+const GameEvent = require('../models/game-event')
 const redisPubClient = require('../service/redisService');
 const {computeDescription} = require('../service/gameService');
 

@@ -15,6 +15,17 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: postgresPass
 
+  game-publisher:
+    build: ./microservices/game_publisher
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./microservices/shared/database:/usr/src/app/src/database
+      - ./microservices/shared/models:/usr/src/app/src/models
+    depends_on:
+      - postgres
+      - redis
+
   bet-api:
     build: ./microservices/bet_api
     ports:
@@ -24,3 +35,4 @@ services:
       - ./microservices/shared/models:/usr/src/app/src/models
     depends_on:
       - postgres
+
