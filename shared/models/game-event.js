@@ -34,7 +34,7 @@ GameEvent.belongsTo(Game, {
     foreignKey: 'gameId',
 });
 
-sequelize.sync({force: true}).then(() => {
+sequelize.sync({force: false}).then(() => {
     console.log("GameEvent table created")
 }).catch(() => {
     console.log("Error synchronising GameEvent table")
