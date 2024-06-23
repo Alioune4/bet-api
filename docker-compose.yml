@@ -60,6 +60,20 @@ services:
       - "traefik.http.routers.bet-api.rule=PathPrefix(`/bet-api`)"
       - "traefik.http.services.bet-api.loadbalancer.server.port=3001"
 
+  bet-api-tests:
+    build:
+      context: ./microservices/bet_api
+      dockerfile: Dockerfile.test
+    depends_on:
+      - bet-api
+    volumes:
+      - ./microservices/shared/database:/usr/src/app/src/database
+      - ./microservices/shared/models:/usr/src/app/src/models
+    environment:
+      - DATABASE_URL=postgres://user:postgresPass@postgres:5432/js
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
   replay-api:
     build: ./microservices/replay_api
     ports:
