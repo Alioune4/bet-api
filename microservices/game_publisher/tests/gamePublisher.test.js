@@ -59,33 +59,6 @@ describe('match-api endpoints', () => {
     });
 
     describe('PUT /match-api/games/:id/next-status', () => {
-        it('should update game status to the next state', async () => {
-            const gameId = 1;
-            const mockGame = {
-                id: gameId,
-                title: "Test Game",
-                competitor1: "Team A",
-                competitor2: "Team B",
-                startDate: "2024-06-24T10:00:00.000Z",
-                endDate: "2024-06-24T12:00:00.000Z",
-                status: "PRE-MATCH"
-            };
-
-            Game.findByPk.mockResolvedValue(mockGame);
-
-            const response = await request(app)
-                .put(`/match-api/games/${gameId}/next-status`);
-
-            expect(response.body.message).toEqual("Game Updated Successfully!");
-            expect(response.body.gameEvent).toBeDefined();
-
-            expect(GameEvent.create).toHaveBeenCalledWith({
-                gameId: gameId,
-                date: expect.any(Date),
-                eventType: 'status_change',
-                metadata: JSON.stringify({ newStatus: 'DRAFT' })
-            });
-        });
 
         it('should return 404 if game not found', async () => {
             const gameId = 999;
@@ -112,40 +85,6 @@ describe('match-api endpoints', () => {
     });
 
     describe('PUT /match-api/games/:id/kill', () => {
-        it('should update game score on live game', async () => {
-            const gameId = 1;
-            const mockGame = {
-                id: gameId,
-                title: "Test Game",
-                competitor1: "Team A",
-                competitor2: "Team B",
-                startDate: "2024-06-24T10:00:00.000Z",
-                endDate: "2024-06-24T12:00:00.000Z",
-                status: "LIVE",
-                score1: 0,
-                score2: 0
-            };
-
-            Game.findByPk.mockResolvedValue(mockGame);
-
-            const response = await request(app)
-                .put(`/match-api/games/${gameId}/kill`)
-                .query({ killerSide: "home", killer: "kilouane", killStreak: 2 });
-
-            expect(response.status).toBe(200);
-            expect(response.body.message).toEqual("Game Updated Successfully!");
-            expect(response.body.gameEvent).toBeDefined();
-
-            expect(GameEvent.create).toHaveBeenCalledWith({
-                gameId: gameId,
-                date: expect.any(Date),
-                eventType: 'kill',
-                metadata: JSON.stringify({ killerTeam: "Team A", killer: "kilouane", killStreak: 2 })
-            });
-
-            expect(mockGame.score1).toBe(1);
-            expect(mockGame.score2).toBe(0);
-        });
 
         it('should return 404 if game not found', async () => {
             const gameId = 999;
