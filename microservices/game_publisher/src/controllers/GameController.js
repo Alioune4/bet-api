@@ -43,13 +43,15 @@ const updateGameStatus = async (req, res) => {
 
         game.status = states[stateIndex + 1];
 
-        //Notifications:
+        const metadata = JSON.stringify({newStatus: game.status});
+
         const gameEvent = {
             gameId: game.id,
             date: new Date(),
             eventType: 'status_change',
-            metadata: {newStatus: game.status}
+            metadata: metadata
         };
+
 
         await game.save();
 
@@ -86,7 +88,7 @@ const updateGameScore = async (req, res) => {
             gameId: game.id,
             date: new Date(),
             eventType: 'kill',
-            metadata: {killerTeam: killerTeam, killer: killer, killStreak: killStreak}
+            metadata: JSON.stringify({killerTeam: killerTeam, killer: killer, killStreak: killStreak})
         }
 
         await game.save();

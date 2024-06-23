@@ -2,7 +2,7 @@
 
 
 function notifyGameEvent(event) {
-    console.log(`Notification - Utilisateur: ${update.userId}, Match: ${update.matchId}, Type de mise à jour: ${update.updateType}, Données de mise à jour: ${update.updateData}`);
+    console.log(`Notification - Utilisateur: ${event.userId}, Game: ${event.gameId}, Type: ${event.eventType}, Données de mise à jour: ${event.metadata}`);
 }
 
 module.exports = {notifyGameEvent};

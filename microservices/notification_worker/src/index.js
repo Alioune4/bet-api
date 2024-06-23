@@ -5,13 +5,17 @@ const Favorite = require('./models/favorite')
 
 async function handleGameEventReceived(message) {
     const gameEvent = JSON.parse(message);
-    const {gameId, eventType} = gameEvent;
-    const favorites = await Favorite.findAll({
-        where: { gameId: gameId },
-    })
-    console.log('Favorites:', favorites)
+    const {gameId, eventType, metadata} = gameEvent;
+    const favorites = await Favorite.findAll({ where: { gameId } });
 
-    notifyGameEvent(gameEvent);
+    favorites.forEach((favorite) => {
+        notifyGameEvent({
+            userId: favorite.userId,
+            gameId: gameId,
+            eventType: eventType,
+            metadata: metadata
+        });
+    });
 }
 
 redisSubClient.subscribe("game_events", handleGameEventReceived)
