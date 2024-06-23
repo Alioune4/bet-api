@@ -13,8 +13,8 @@ GameEvent.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        description: {
-            type: DataTypes.STRING,
+        metadata: {
+            type: DataTypes.JSON,
             allowNull: false,
         },
     },
@@ -34,7 +34,7 @@ GameEvent.belongsTo(Game, {
     foreignKey: 'gameId',
 });
 
-sequelize.sync({force: false}).then(() => {
+sequelize.sync({force: true}).then(() => {
     console.log("GameEvent table created")
 }).catch(() => {
     console.log("Error synchronising GameEvent table")
