@@ -105,12 +105,15 @@ services:
       context: ./microservices/game_publisher
       dockerfile: Dockerfile.test
     volumes:
-      - ./microservices/game_publisher:/usr/src/app
-    environment:
-      - NODE_ENV=testing
+      - ./microservices/shared/database:/usr/src/app/src/database
+      - ./microservices/shared/models:/usr/src/app/src/models
     depends_on:
       - game-publisher
       - redis
+    environment:
+      - DATABASE_URL=postgres://user:postgresPass@postgres:5432/js
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
 
   bet-api-tests:
     build:
