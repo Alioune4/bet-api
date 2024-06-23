@@ -48,12 +48,13 @@ services:
 
   notification-worker:
     build: ./microservices/notification_worker
-    depends_on:
-      - redis
-      - postgres
     volumes:
       - ./microservices/shared/database:/usr/src/app/src/database
       - ./microservices/shared/models:/usr/src/app/src/models
+    depends_on:
+      - postgres
+      - game-publisher
+      - redis
 
   favorite-api:
     build: ./microservices/favorite_api
@@ -64,3 +65,4 @@ services:
       - ./microservices/shared/models:/usr/src/app/src/models
     depends_on:
       - postgres
+      - game-publisher

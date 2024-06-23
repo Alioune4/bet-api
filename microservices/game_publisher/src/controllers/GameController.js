@@ -18,7 +18,7 @@ const createGame = async (req, res) => {
 
         const createdGame = await Game.create(game);
 
-        res.status(200).json({message: "Game Published Successfully!", createdGame: createdGame})
+        res.status(201).json({message: "Game created Successfully!", createdGame: createdGame})
     } catch (error) {
         console.error(error)
         res.status(500).json({message: "Error while creating the game :"})
@@ -43,6 +43,7 @@ const updateGameStatus = async (req, res) => {
 
         game.status = states[stateIndex + 1];
 
+        //Notifications:
         const gameEvent = {
             gameId: game.id,
             date: new Date(),

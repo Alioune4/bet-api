@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+const {Model, DataTypes} = require("sequelize")
 const sequelize = require('../database/sequelize')
 
 class Favorite extends Model {}
@@ -8,18 +8,19 @@ Favorite.init({
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    matchId: {
+    gameId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Matches',
+            model: 'Games',
             key: 'id'
         }
     }
 }, {
     sequelize,
-    modelName: 'Favorite'
+    modelName: 'GameFavorite'
 });
+
 
 sequelize.sync({ force: false }).then(() => {
     console.log('Favorites table created');
