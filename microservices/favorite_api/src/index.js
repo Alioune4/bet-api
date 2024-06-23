@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 3004;
 
 const routes = require('./routes/favoriteRoutes')
 
@@ -8,7 +8,7 @@ const routes = require('./routes/favoriteRoutes')
 app.use(express.json())
 
 
-app.use('/favorite_api/manage', routes)
+app.use('/favorite-api/manage', routes)
 
 
 app.listen(port, () => {

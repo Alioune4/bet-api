@@ -1,6 +1,22 @@
 version: '3'
 services:
 
+
+  traefik:
+    image: traefik:v2.5
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:3030"
+      - "--log.level=DEBUG"
+    ports:
+      - "3030:3030"
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
   redis:
     image: redis
     ports:
@@ -25,26 +41,38 @@ services:
     depends_on:
       - postgres
       - redis
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.game-publisher.rule=PathPrefix(`/match-api`)"
+      - "traefik.http.services.game-publisher.loadbalancer.server.port=3000"
 
   bet-api:
     build: ./microservices/bet_api
     ports:
-      - "3001:3000"
+      - "3001:3001"
     volumes:
       - ./microservices/shared/database:/usr/src/app/src/database
       - ./microservices/shared/models:/usr/src/app/src/models
     depends_on:
       - postgres
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bet-api.rule=PathPrefix(`/bet-api`)"
+      - "traefik.http.services.bet-api.loadbalancer.server.port=3001"
 
   replay-api:
     build: ./microservices/replay_api
     ports:
-      - "3002:3000"
+      - "3002:3002"
     volumes:
       - ./microservices/shared/database:/usr/src/app/src/database
       - ./microservices/shared/models:/usr/src/app/src/models
     depends_on:
       - postgres
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.replay-api.rule=PathPrefix(`/replay-api`)"
+      - "traefik.http.services.replay-api.loadbalancer.server.port=3002"
 
   notification-worker:
     build: ./microservices/notification_worker
@@ -59,10 +87,14 @@ services:
   favorite-api:
     build: ./microservices/favorite_api
     ports:
-      - "3004:3000"
+      - "3004:3004"
     volumes:
       - ./microservices/shared/database:/usr/src/app/src/database
       - ./microservices/shared/models:/usr/src/app/src/models
     depends_on:
       - postgres
       - game-publisher
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.favorite-api.rule=PathPrefix(`/favorite-api`)"
+      - "traefik.http.services.favorite-api.loadbalancer.server.port=3004"
