@@ -6,8 +6,6 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-# Install any test dependencies if necessary
 RUN npm install jest supertest
 
-# Default command to run tests
 CMD ["npm", "test"]

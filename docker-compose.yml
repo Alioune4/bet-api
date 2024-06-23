@@ -99,6 +99,19 @@ services:
       - "traefik.http.routers.favorite-api.rule=PathPrefix(`/favorite-api`)"
       - "traefik.http.services.favorite-api.loadbalancer.server.port=3004"
 
+
+  game-publisher-tests:
+    build:
+      context: ./microservices/game_publisher
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./microservices/game_publisher:/usr/src/app
+    environment:
+      - NODE_ENV=testing
+    depends_on:
+      - game-publisher
+      - redis
+
   bet-api-tests:
     build:
       context: ./microservices/bet_api
